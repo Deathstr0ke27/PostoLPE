@@ -69,6 +69,11 @@ int main(void) {
       break;
     case 3:
       FilEsp(car,comb);
+      printf("Carros na fila:\n");
+  for (int i=0; i<car; i++) {
+    printf("Carro n° %d", i+1);
+    printf("\nMarca: %s\nModelo: %s\nCor: %s\nAno: %d\n", fil[i].marca, fil[i].modelo, fil[i].cor, fil[i].ano);
+  }
       break;
     case 4:
       op = 'a';
