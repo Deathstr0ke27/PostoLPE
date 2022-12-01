@@ -91,7 +91,7 @@ int main(void) {
           CombRest(comb);
           break;
         case 'e':
-          Imp();
+          Imprimir(vend, preco, comb, lucro, aten, tam);
           break;
         }
         printf("Pressione qualquer tecla para continuar: ");

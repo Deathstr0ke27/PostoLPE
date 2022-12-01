@@ -69,6 +69,28 @@ void Imp() {
   printf("%sArquivo para impressão gerado com sucesso.%s\n", GREEN, DEFAULT);
 }
 
+void Imprimir(float vend, float preco, float comb, int lucro, int aten, int tam) {
+  printf("\n%sLitros vendidos: %.2f%s\n", BLUE, vend ,DEFAULT);
+  printf("%sValor total arrecadado: R$ %.2f%s\n", BLUE, preco * vend, DEFAULT);
+  printf("%sAtendidos: %d%s carro(s)\n", BLUE, aten, DEFAULT);
+  printf("%sGasolina no tanque: %.2f%s\n\n", BLUE, comb, DEFAULT);
+  printf("%sTamanho maximo da fila: %d %scarro(s)\n", BLUE, tam, DEFAULT);
+  printf("%sPreço da Gasolina: R$ %.2f litro%s\n", BLUE, preco, DEFAULT);
+  printf("%sCaixa atual combustível: R$ %.2f\nCaixa atual carros lavados: R$ %d%s\n",BLUE, vend * preco, lucro, DEFAULT);
+
+  FILE *fp = fopen("registro.txt", "w");
+
+      //fprintf, e não printf!
+  fprintf(fp, "Litros vendidos: %.2f\n", vend);
+  fprintf(fp, "Valor total arrecadado: R$ %.2f\n", preco * vend);
+  fprintf(fp, "Atendidos: %d carro(s)\n", aten);
+  fprintf(fp, "Gasolina na bomba: %.2f\n", comb);
+  fprintf(fp, "Caixa atual combustível: R$ %.2f\nCaixa atual carros lavados: R$ %d\n", vend * preco, lucro);
+  fprintf(fp, "Tamanho maximo da fila: %d carro(s)\n", tam);
+  fprintf(fp, "Preço da Gasolina: R$ %.2f/Litro\n", preco);
+  fclose(fp);
+}
+
 void SubMenu() {
   printf(" %s%sSUBMENU%s\n%sSelecione uma "
          "opção:%s\n  a- Quantidade de litros vendidos;\n  b- Valor "

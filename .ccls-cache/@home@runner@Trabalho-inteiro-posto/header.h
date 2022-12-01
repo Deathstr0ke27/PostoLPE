@@ -22,6 +22,7 @@ void LitVend(float vend);
 void Lucros(float vend, float preco, int lucro);
 void CombRest(float comb);
 void Imp();
+void Imprimir(float vend, float preco, float comb, int lucro, int aten, int tam);
 void SubMenu();
 int MenuLC(int lc);
 int LimpCar(int car);
