@@ -65,11 +65,39 @@ void CombRest(float comb) {
     printf("%sNão tem mais combustível no posto.%s\n", RED, DEFAULT);
   }
 }
-void Imp() {
-  printf("%sArquivo para impressão gerado com sucesso.%s\n", GREEN, DEFAULT);
+void Filas(int a, struct Tcarro at[], FILE *f) {
+  for (int i=0; i<a; i++) {
+    fprintf(f, "Carro n° %d", i);
+    fprintf(f, "\nMarca: %s", at[i].marca);
+    fprintf(f, "\nModelo: %s", at[i].modelo);
+    fprintf(f, "\nCor: %s", at[i].cor);
+    fprintf(f, "\nAno: %d\n", at[i].ano);
+  }
+}
+int Impressao(float vend, float preco, float comb, int lucro, int aten, int tam, struct Tcarro atendidos[], int limp, struct Tcarro lavados[]) {
+  FILE *txt;
+  txt = fopen("relatorio.txt", "w");
+  if (txt == NULL) {
+    printf("não foi possível criar arquivo de relatório");
+
+    return 1;
+  };
+  fprintf(txt, "Litros vendidos: %.2f\n", vend);
+  fprintf(txt, "Valor total arrecadado: R$ %.2f\n", preco * vend);
+  fprintf(txt, "Atendidos: %d carro(s)\n", aten);
+  fprintf(txt, "Gasolina na bomba: %.2f\n", comb);
+  fprintf(txt, "Caixa atual combustível: R$ %.2f\nCaixa atual carros lavados: R$ %d\n", vend * preco, lucro);
+  fprintf(txt, "Tamanho maximo da fila: %d carro(s)\n", tam);
+  fprintf(txt, "Preço da Gasolina: R$ %.2f/Litro\n", preco);
+  fprintf(txt, "\nFILA DE CARROS ABASTECIDOS:\n");
+  Filas(aten, atendidos, txt);
+  fprintf(txt, "\nFILA DE CARROS LAVADOS:\n");
+  Filas(limp, lavados, txt);
+  fclose(txt);
+  return 0;
 }
 
-void Imprimir(float vend, float preco, float comb, int lucro, int aten, int tam) {
+void Imprimir(float vend, float preco, float comb, int lucro, int aten, int tam, struct Tcarro at[], int l, struct Tcarro lv[]) {
   printf("\n%sLitros vendidos: %.2f%s\n", BLUE, vend ,DEFAULT);
   printf("%sValor total arrecadado: R$ %.2f%s\n", BLUE, preco * vend, DEFAULT);
   printf("%sAtendidos: %d%s carro(s)\n", BLUE, aten, DEFAULT);
@@ -77,6 +105,18 @@ void Imprimir(float vend, float preco, float comb, int lucro, int aten, int tam)
   printf("%sTamanho maximo da fila: %d %scarro(s)\n", BLUE, tam, DEFAULT);
   printf("%sPreço da Gasolina: R$ %.2f litro%s\n", BLUE, preco, DEFAULT);
   printf("%sCaixa atual combustível: R$ %.2f\nCaixa atual carros lavados: R$ %d%s\n",BLUE, vend * preco, lucro, DEFAULT);
+
+  printf("Carros abastecidos:\n");
+  for (int i=0; i<aten; i++) {
+    printf("Carro n° %d", i);
+    printf("\nMarca: %s\nModelo: %s\nCor: %s\nAno: %d\n", at[i].marca, at[i].modelo, at[i].cor, at[i].ano);
+  }
+
+  printf("Carros lavados:\n");
+  for (int i=0; i<l; i++) {
+    printf("Carro n° %d", i);
+    printf("\nMarca: %s\nModelo: %s\nCor: %s\nAno: %d\n", lv[i].marca, lv[i].modelo, lv[i].cor, lv[i].ano);
+  }
 
   FILE *fp = fopen("registro.txt", "w");
 
@@ -136,15 +176,6 @@ void TcarroAdd(int c, struct Tcarro fil[]) {
   system("clear");
   printf("%sCarro adicionado à fila!%s",GREEN, DEFAULT);
 }
-
-void TCarroAtendidos(int a, struct Tcarro at[]) {
-  printf("Carros atendidos:\n");
-  for (int i=0; i<a; i++) {
-    printf("Carro n° %d", i);
-    printf("\nMarca: %s\nModelo: %s\nCor: %s\nAno: %d\n", at[i].marca, at[i].modelo, at[i].cor, at[i].ano);
-  }
-}
-
 void Atendidos(int a,int tam ,struct Tcarro at[], struct Tcarro f[]) {
   at[a] = f[0];
   for (int i=1; i<tam; i++) {

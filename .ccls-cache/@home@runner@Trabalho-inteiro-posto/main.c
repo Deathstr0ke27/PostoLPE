@@ -4,7 +4,7 @@
 
 
 int main(void) {
-  struct Tcarro *fil, *atendidos;
+  struct Tcarro *fil, *atendidos, *lavados;
   float preco;
   int car = 0, aten = 0, limp = 0, lucro = 0, tam;
   float comb, abas, vend = 0;
@@ -23,6 +23,7 @@ int main(void) {
   };
   fil = (struct Tcarro *) malloc (tam * sizeof(struct Tcarro));
   atendidos = (struct Tcarro *) malloc (1 * sizeof(struct Tcarro));
+  lavados = (struct Tcarro *) malloc (1 * sizeof(struct Tcarro));
   system("clear");
   flush_in();
   int escolha = 1, lc = 1;
@@ -70,10 +71,7 @@ int main(void) {
     case 3:
       FilEsp(car,comb);
       printf("Carros na fila:\n");
-  for (int i=0; i<car; i++) {
-    printf("Carro n° %d", i+1);
-    printf("\nMarca: %s\nModelo: %s\nCor: %s\nAno: %d\n", fil[i].marca, fil[i].modelo, fil[i].cor, fil[i].ano);
-  }
+      Filas(car, fil, stdout);
       break;
     case 4:
       op = 'a';
@@ -90,13 +88,27 @@ int main(void) {
           Lucros(vend, preco, lucro);
           break;
         case 'c':
-          TCarroAtendidos(aten, atendidos);
+          printf("\nCarros Abastecidos\n");
+          Filas(aten, atendidos, stdout);
+          printf("\nCarros Lavados\n");
+          Filas(limp, lavados, stdout);
           break;
         case 'd':
           CombRest(comb);
           break;
         case 'e':
-          Imprimir(vend, preco, comb, lucro, aten, tam);
+          printf("Litros vendidos: %.2f\n", vend);
+          printf("Valor total arrecadado: R$ %.2f\n", preco * vend);
+          printf("Atendidos: %d carro(s)\n", aten);
+          printf("Gasolina na bomba: %.2f\n", comb);
+          printf("Caixa atual combustível: R$ %.2f\nCaixa atual carros lavados: R$ %d\n", vend * preco, lucro);
+          printf("Tamanho maximo da fila: %d carro(s)\n", tam);
+          printf("Preço da Gasolina: R$ %.2f/Litro\n", preco);
+          printf("\nFILA DE CARROS ABASTECIDOS:\n");
+          Filas(aten, atendidos, stdout);
+          printf("\nFILA DE CARROS LAVADOS:\n");
+          Filas(limp, lavados, stdout);
+          Impressao(vend, preco, comb, lucro, aten, tam, atendidos, limp, lavados);
           break;
         }
         printf("Pressione qualquer tecla para continuar: ");
@@ -116,12 +128,11 @@ int main(void) {
           if (car > 0) {
             //car = LimpCar(car);
             printf("%sSeu carro está limpo agora!%s\n", GREEN, DEFAULT);
-            Atendidos(aten, tam, atendidos, fil);
+            Atendidos(limp, tam, lavados, fil);
             car--;
-            aten++;
-            atendidos = (struct Tcarro *) realloc (atendidos, (aten + 1) * sizeof(struct Tcarro));
-            lucro = lucro + 100;
             limp++;
+            lavados = (struct Tcarro *) realloc (lavados, (limp + 1) * sizeof(struct Tcarro));
+            lucro = lucro + 100;
           } else {
             FilVaz();
           }
@@ -131,12 +142,11 @@ int main(void) {
           if (car > 0) {
             //car = LimpCar(car);
             printf("%sSeu carro está limpo agora!%s\n", GREEN, DEFAULT);
-            Atendidos(aten, tam, atendidos, fil);
+            Atendidos(limp, tam, lavados, fil);
             car--;
-            aten++;
-            atendidos = (struct Tcarro *) realloc (atendidos, (aten + 1) * sizeof(struct Tcarro));
-            lucro = lucro + 150;
             limp++;
+            lavados = (struct Tcarro *) realloc (lavados, (limp + 1) * sizeof(struct Tcarro));
+            lucro = lucro + 150;
           } else {
             FilVaz();
           }
@@ -146,12 +156,11 @@ int main(void) {
           if (car > 0) {
             //car = LimpCar(car);
             printf("%sSeu carro está limpo agora!%s\n", GREEN, DEFAULT);
-            Atendidos(aten, tam, atendidos, fil);
+            Atendidos(limp, tam, lavados, fil);
             car--;
-            aten++;
-            atendidos = (struct Tcarro *) realloc (atendidos, (aten + 1) * sizeof(struct Tcarro));
-            lucro = lucro + 200;
             limp++;
+            lavados = (struct Tcarro *) realloc (lavados, (limp + 1) * sizeof(struct Tcarro));
+            lucro = lucro + 200;
           } else {
             FilVaz();
           }
